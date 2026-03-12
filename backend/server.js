@@ -17,6 +17,21 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Campus Resource Management API',
+    version: '1.0.0',
+    endpoints: {
+      auth: '/api/auth',
+      student: '/api/student',
+      clubHead: '/api/club-head',
+      admin: '/api/admin',
+      health: '/api/health'
+    }
+  });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/student', studentRoutes);
