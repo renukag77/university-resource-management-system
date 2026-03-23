@@ -71,25 +71,58 @@ const getAvailableVenues = async (req, res) => {
 const createEvent = async (req, res) => {
   try {
     const userId = req.userId;
-    const { title, description, poster, requiredSkills, capacity } = req.body;
+    const { title, description, venue, eventDate, poster, requiredSkills, capacity } = req.body;
 
+    // Validation
+    if (!title || !title.trim()) {
+      return res.status(400).json({ message: 'Event name is required' });
+    }
+    if (!description || !description.trim()) {
+      return res.status(400).json({ message: 'Event description is required' });
+    }
+    if (!venue || !venue.trim()) {
+      return res.status(400).json({ message: 'Venue is required' });
+    }
+    if (!eventDate) {
+      return res.status(400).json({ message: 'Event date is required' });
+    }
+
+    // Validate date is in the future
+    const eventDateTime = new Date(eventDate);
+    if (eventDateTime <= new Date()) {
+      return res.status(400).json({ message: 'Event date must be in the future' });
+    }
+
+    // Verify user is a club head
+    const user = await User.findById(userId);
+    if (!user || user.role !== 'club_head') {
+      return res.status(403).json({ message: 'Access denied. Only club heads can create events' });
+    }
+
+    // Create event
     const event = new Event({
       title,
       description,
-      poster,
+      venue,
+      eventDate: eventDateTime,
+      poster: poster || null,
       clubHeadId: userId,
       requiredSkills: requiredSkills || [],
       capacity: capacity || 0,
-      status: 'draft',
+      status: 'active', // Immediately active for students to see
     });
 
     await event.save();
+
+    // Populate club head info before returning
+    await event.populate('clubHeadId', 'name email');
 
     res.status(201).json({
       message: 'Event created successfully',
       event,
     });
   } catch (error) {
+    console.error('Create event error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };

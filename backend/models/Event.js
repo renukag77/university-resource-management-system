@@ -9,7 +9,17 @@ const eventSchema = new mongoose.Schema(
     },
     description: {
       type: String,
+      required: true,
       trim: true,
+    },
+    venue: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    eventDate: {
+      type: Date,
+      required: true,
     },
     poster: {
       type: String, // URL or file path

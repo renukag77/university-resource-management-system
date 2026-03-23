@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth');
 const studentRoutes = require('./routes/student');
 const clubHeadRoutes = require('./routes/clubHead');
 const adminRoutes = require('./routes/admin');
+const Event = require('./models/Event');
 
 const app = express();
 
@@ -17,6 +18,7 @@ connectDB();
 const corsOptions = {
   origin: [
     'http://localhost:3000',
+    'http://localhost:3001',
     'http://localhost:5000',
     'https://campussync-phi.vercel.app',
     'https://sepmbackend.vercel.app'
@@ -40,9 +42,36 @@ app.get('/', (req, res) => {
       student: '/api/student',
       clubHead: '/api/club-head',
       admin: '/api/admin',
+      events: '/api/events',
       health: '/api/health'
     }
   });
+});
+
+// Public events endpoint (no authentication required)
+app.get('/api/events', async (req, res) => {
+  try {
+    const { search, skill } = req.query;
+    let query = { status: 'active' };
+
+    if (search) {
+      query.title = { $regex: search, $options: 'i' };
+    }
+
+    if (skill) {
+      query.requiredSkills = { $in: [skill] };
+    }
+
+    const events = await Event.find(query)
+      .populate('clubHeadId', 'name email')
+      .sort({ eventDate: 1 })
+      .lean();
+
+    res.json(events);
+  } catch (error) {
+    console.error('Get events error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
 });
 
 // Routes
