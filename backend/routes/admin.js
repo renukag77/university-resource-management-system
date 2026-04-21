@@ -9,6 +9,11 @@ const {
   suggestAlternative,
   getAllVenues,
   addVenue,
+  getPendingVenueRequests,
+  getVenueRequestDetails,
+  approveVenueRequest,
+  rejectVenueRequest,
+  getAllEvents,
 } = require('../controllers/adminController');
 
 const router = express.Router();
@@ -21,6 +26,9 @@ router.get('/dashboard', getAdminDashboard);
 
 // Get pending event requests
 router.get('/pending-requests', getPendingRequests);
+
+// Get all events (approved or pending)
+router.get('/all-events', getAllEvents);
 
 // Approve event request
 router.put('/events/:eventId/approve', approveEventRequest);
@@ -39,5 +47,11 @@ router.get('/venues', getAllVenues);
 
 // Add new venue
 router.post('/venues', addVenue);
+
+// Venue request endpoints
+router.get('/venue-requests', getPendingVenueRequests);
+router.get('/venue-requests/:venueRequestId', getVenueRequestDetails);
+router.put('/venue-requests/:venueRequestId/approve', approveVenueRequest);
+router.put('/venue-requests/:venueRequestId/reject', rejectVenueRequest);
 
 module.exports = router;

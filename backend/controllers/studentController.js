@@ -62,8 +62,7 @@ const getAllEvents = async (req, res) => {
 const applyForEvent = async (req, res) => {
   try {
     const userId = req.userId;
-    const { eventId } = req.body;
-    const { skills } = req.body;
+    const { eventId, skills, documentationUrls } = req.body;
 
     // Check if event exists
     const event = await Event.findById(eventId);
@@ -88,6 +87,7 @@ const applyForEvent = async (req, res) => {
       userId,
       eventId,
       userSkills: skills || [],
+      submittedDocumentation: documentationUrls || [],
     });
 
     await application.save();

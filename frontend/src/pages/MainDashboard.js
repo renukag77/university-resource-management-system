@@ -8,10 +8,7 @@ const MainDashboard = () => {
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
-    if (!currentUser) {
-      navigate('/login');
-    } else {
-      // Redirect to role-specific dashboard
+    if (currentUser) {
       const roleDashboards = {
         student: '/dashboard/student',
         club_head: '/dashboard/club-head',
@@ -19,7 +16,7 @@ const MainDashboard = () => {
       };
       
       if (roleDashboards[currentUser.role]) {
-        navigate(roleDashboards[currentUser.role]);
+        navigate(roleDashboards[currentUser.role], { replace: true });
       }
     }
   }, [navigate]);

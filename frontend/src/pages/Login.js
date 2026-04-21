@@ -37,8 +37,8 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await authService.login(formData.email, formData.password);
-      alert(`Welcome, ${response.user.name}! Logged in as ${response.user.role}`);
-      navigate('/dashboard');
+      // Removed alert as it can cause race conditions with navigation
+      navigate('/dashboard', { replace: true });
     } catch (err) {
       setError(
         err.response?.data?.message || 'Login failed. Please try again.'

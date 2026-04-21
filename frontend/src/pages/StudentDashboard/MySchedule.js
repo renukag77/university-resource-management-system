@@ -10,12 +10,10 @@ const MySchedule = () => {
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
-    if (!currentUser || currentUser.role !== 'student') {
-      navigate('/login');
-    } else {
+    if (currentUser) {
       setUser(currentUser);
     }
-  }, [navigate]);
+  }, []);
 
   if (!user) {
     return null;

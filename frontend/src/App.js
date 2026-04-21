@@ -23,6 +23,7 @@ import CreateEvent from './pages/ClubHeadDashboard/CreateEvent';
 import MyEvents from './pages/ClubHeadDashboard/MyEvents';
 import ApplicationsClubHead from './pages/ClubHeadDashboard/ApplicationsClubHead';
 import ClubMembers from './pages/ClubHeadDashboard/ClubMembers';
+import VenueRequests from './pages/ClubHeadDashboard/VenueRequests';
 
 // Admin Pages
 import AdminHome from './pages/AdminDashboard/AdminHome';
@@ -138,6 +139,14 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['club_head']}>
               <ClubMembers />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/club-head/venue-requests"
+          element={
+            <ProtectedRoute allowedRoles={['club_head']}>
+              <VenueRequests />
             </ProtectedRoute>
           }
         />

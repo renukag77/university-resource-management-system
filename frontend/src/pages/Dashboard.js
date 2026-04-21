@@ -9,12 +9,10 @@ const Dashboard = () => {
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
-    if (!currentUser) {
-      navigate('/login');
-    } else {
+    if (currentUser) {
       setUser(currentUser);
     }
-  }, [navigate]);
+  }, []);
 
   const handleLogout = () => {
     authService.logout();

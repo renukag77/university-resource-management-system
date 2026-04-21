@@ -18,6 +18,11 @@ const studentApplicationSchema = new mongoose.Schema(
         trim: true,
       },
     ],
+    submittedDocumentation: [
+      {
+        type: String, // File URL from Cloudinary or storage
+      },
+    ],
     status: {
       type: String,
       enum: ['applied', 'accepted', 'rejected', 'withdrawn'],

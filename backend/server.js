@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth');
 const studentRoutes = require('./routes/student');
 const clubHeadRoutes = require('./routes/clubHead');
 const adminRoutes = require('./routes/admin');
+const uploadRoutes = require('./routes/upload');
 const Event = require('./models/Event');
 
 const app = express();
@@ -79,6 +80,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/student', studentRoutes);
 app.use('/api/club-head', clubHeadRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

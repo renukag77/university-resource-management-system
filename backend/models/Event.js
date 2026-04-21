@@ -14,8 +14,19 @@ const eventSchema = new mongoose.Schema(
     },
     venue: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
+      default: null,
+    },
+    venueId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Venue',
+      default: null,
+    },
+    venueRequestId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'VenueRequest',
+      default: null,
     },
     eventDate: {
       type: Date,
@@ -44,6 +55,15 @@ const eventSchema = new mongoose.Schema(
     capacity: {
       type: Number,
       default: 0,
+    },
+    problemStatement: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    ideationNeeded: {
+      type: Boolean,
+      default: false,
     },
     appliedLocation: {
       type: String,
